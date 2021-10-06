@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "company-reservations-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/companyReservations/CompanyReservationsWebPart.js",
+          "manifest": "./src/webparts/companyReservations/CompanyReservationsWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "CompanyReservationsWebPartStrings": "lib/webparts/companyReservations/loc/{locale}.js"
+  }
+}
