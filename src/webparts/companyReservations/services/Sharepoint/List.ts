@@ -21,7 +21,7 @@ export class List
 		await this.spList.items.add(data);
 	}
 
-	public async getItemsByValue(ref: any): Promise<any[]>
+	public async getItemsByValues(ref: any): Promise<any[]>
 	{
 		const items : any[] = await this.spList.items.get();
 
@@ -44,6 +44,24 @@ export class List
 			}
 
 			if(valid)
+			{
+				validItems.push(item);
+			}
+		}
+
+		return validItems;
+	}
+
+	public async getItemsByFunction(func : (item : any) => boolean) : Promise<any[]>
+	{
+		const items : any[] = await this.spList.items.get();
+
+		let validItems : any[] = [];
+
+		for(let i : number = 0; i < items.length; i ++)
+		{
+			const item : any = items[i];
+			if(func(item))
 			{
 				validItems.push(item);
 			}
