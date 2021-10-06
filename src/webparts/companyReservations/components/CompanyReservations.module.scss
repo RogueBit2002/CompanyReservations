@@ -1,4 +1,5 @@
 @import '~office-ui-fabric-react/dist/sass/References.scss';
+@import url('https://fonts.googleapis.com/css?family=Bungee');
 
 .companyReservations {
   .container {
@@ -25,6 +26,7 @@
   .title {
     @include ms-font-xl;
     @include ms-fontColor-white;
+	font-family: 'Bungee', cursive;
   }
 
   .subTitle {
@@ -35,6 +37,7 @@
   .description {
     @include ms-font-l;
     @include ms-fontColor-white;
+	
   }
 
   .button {

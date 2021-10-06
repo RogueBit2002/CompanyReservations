@@ -22,10 +22,7 @@ export class SharepointService
 	static getListByName(name : string): List
 	{
 		const spList : IList = sp.web.lists.getByTitle(name);
-
-		//const items : any[] = await spList.items.get();
-		//const items: any[] = await sp.web.lists.getByTitle(name).items.get();
-		//console.debug("Debug items output thing: ", items);
+		
 		return new List(spList);
 	}
 }

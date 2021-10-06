@@ -1,4 +1,8 @@
+import { List } from "../services/Sharepoint/List";
+
 export interface ICompanyReservationsState
 {
-	textInput : string;
+	createInput : string;
+	searchInput : string;
+	list : List;
 }
