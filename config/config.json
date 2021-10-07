@@ -2,18 +2,27 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
   "version": "2.0",
   "bundles": {
-    "company-reservations-web-part": {
+    "company-reservations-client-web-part": {
       "components": [
         {
-          "entrypoint": "./lib/webparts/companyReservations/CompanyReservationsWebPart.js",
-          "manifest": "./src/webparts/companyReservations/CompanyReservationsWebPart.manifest.json"
+          "entrypoint": "./lib/webparts/companyReservationsClient/CompanyReservationsClientWebPart.js",
+          "manifest": "./src/webparts/companyReservationsClient/CompanyReservationsClientWebPart.manifest.json"
+        }
+      ]
+    },
+    "company-reservations-admin-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/companyReservationsAdmin/CompanyReservationsAdminWebPart.js",
+          "manifest": "./src/webparts/companyReservationsAdmin/CompanyReservationsAdminWebPart.manifest.json"
         }
       ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "CompanyReservationsWebPartStrings": "lib/webparts/companyReservations/loc/{locale}.js",
+    "CompanyReservationsClientWebPartStrings": "lib/webparts/companyReservationsClient/loc/{locale}.js",
+    "CompanyReservationsAdminWebPartStrings": "lib/webparts/companyReservationsAdmin/loc/{locale}.js",
     "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
   }
 }

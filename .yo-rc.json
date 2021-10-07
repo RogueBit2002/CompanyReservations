@@ -1,11 +1,12 @@
 {
   "@microsoft/generator-sharepoint": {
+    "isCreatingSolution": false,
+    "environment": "spo",
+    "whichFolder": "subdir",
     "version": "1.12.1",
     "libraryName": "company-reservations",
-    "libraryId": "8ae2c820-c4e0-42ec-9155-602d7f9e9b90",
-    "environment": "spo",
+    "libraryId": "73da4a6b-531c-4dfd-acbb-709652150d06",
     "packageManager": "npm",
-    "isCreatingSolution": true,
     "isDomainIsolated": false,
     "componentType": "webpart"
   }

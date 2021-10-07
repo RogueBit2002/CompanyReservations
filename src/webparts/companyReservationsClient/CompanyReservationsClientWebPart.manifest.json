@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "ca209f5b-d1ac-4941-be40-9d48cafb1f77",
-  "alias": "CompanyReservationsWebPart",
+  "id": "be10c9a0-3e18-4a75-80ec-264ebdbe0933",
+  "alias": "CompanyReservationsClientWebPart",
   "componentType": "WebPart",
 
   // The "*" signifies that the version should be taken from the package.json
@@ -17,11 +17,11 @@
   "preconfiguredEntries": [{
     "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Other
     "group": { "default": "Other" },
-    "title": { "default": "CompanyReservations" },
-    "description": { "default": "CompanyReservations description" },
+    "title": { "default": "CompanyReservationsClient" },
+    "description": { "default": "-" },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "CompanyReservations"
+      "description": "CompanyReservationsClient"
     }
   }]
 }

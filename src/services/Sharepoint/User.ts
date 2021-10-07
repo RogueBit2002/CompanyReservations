@@ -3,7 +3,6 @@ import { ISiteUser } from "@pnp/sp/site-users/types";
 
 export class User
 {
-
 	spUser : any;
 
 	constructor(user : ISiteUser)

@@ -1,7 +1,6 @@
 import { IChangeQuery, sp } from "@pnp/sp";
 import { IList, IListInfo, IListParentInfos } from "@pnp/sp/lists";
 import { IViewField } from "@pnp/spfx-controls-react/lib/ListView";
-import * as strings from "CompanyReservationsWebPartStrings";
 
 import { IField, IFieldInfo } from "@pnp/sp/fields/types";
 import "@pnp/sp/webs";
@@ -18,12 +17,23 @@ export class List
 		this.spList = list;
 	}
 
-
 	public static async create(name : string) : Promise<List>
 	{
 		const listEnsureResult = await sp.web.lists.ensure(name);
 
 		return new List(listEnsureResult.list);
+	}
+
+	public static async exists(name : string) : Promise<boolean>
+	{
+		const listEnsureResult = await sp.web.lists.ensure(name);
+
+		if(listEnsureResult.created)
+		{
+			await listEnsureResult.list.delete();
+		}
+		
+		return !listEnsureResult.created;
 	}
 
 	public static getByName(name : string) : List

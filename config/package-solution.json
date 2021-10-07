@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
     "name": "company-reservations-client-side-solution",
-    "id": "8ae2c820-c4e0-42ec-9155-602d7f9e9b90",
+    "id": "73da4a6b-531c-4dfd-acbb-709652150d06",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,

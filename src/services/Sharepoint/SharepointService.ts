@@ -6,6 +6,7 @@ import "@pnp/sp/items";
 import "@pnp/graph/users";
 import "@pnp/sp/site-users/web";
 import { WebPartContext } from "@microsoft/sp-webpart-base";
+import { List } from "./List";
 
 export class SharepointService
 {
