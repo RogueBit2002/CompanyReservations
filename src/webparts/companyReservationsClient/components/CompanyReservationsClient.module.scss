@@ -1,6 +1,32 @@
 @import '~office-ui-fabric-react/dist/sass/References.scss';
 
 .companyReservationsClient {
+
+
+	.pivot
+	{
+		span
+		{
+			@include ms-fontColor-white;
+		}
+
+
+		button[role="tab"]
+		{
+			transition-duration:0.3s;
+		}
+
+		button[role="tab"]:hover
+		{
+			transition-duration:0.3s;
+			background-color: "[theme: themeSecondary, default: #0078d7]";
+		}
+	}
+
+	.pivotContent
+	{
+		@include ms-fontColor-white;
+	}
   .container {
     max-width: 700px;
     margin: 0px auto;
@@ -10,7 +36,7 @@
   .row {
     @include ms-Grid-row;
     @include ms-fontColor-white;
-    background-color: $ms-color-themeDark;
+  	background-color: "[theme: themeDark, default: #0078d7]";
     padding: 20px;
   }
 
