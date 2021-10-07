@@ -10,13 +10,21 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'CompanyReservationsWebPartStrings';
 import CompanyReservations from './components/CompanyReservations';
 import { ICompanyReservationsProps } from './components/ICompanyReservationsProps';
+import { SharepointService } from './services/Sharepoint/SharepointService';
+import { sp } from '@pnp/sp';
 
 export interface ICompanyReservationsWebPartProps {
   description: string;
 }
 
 export default class CompanyReservationsWebPart extends BaseClientSideWebPart<ICompanyReservationsWebPartProps> {
+	
+	public onInit(): Promise<void> {
 
+		return super.onInit().then(_ => {
+			SharepointService.init(this.context);
+		});
+	}
   public render(): void {
     const element: React.ReactElement<ICompanyReservationsProps> = React.createElement(
       CompanyReservations,

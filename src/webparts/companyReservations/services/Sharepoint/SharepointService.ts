@@ -2,27 +2,17 @@ import { sp } from "@pnp/sp";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import "@pnp/sp/items";
-import { IItemAddResult } from "@pnp/sp/items";
-import { IList } from "@pnp/sp/lists";
-import { List } from "./List";
-import { IWeb, IWebInfo } from "@pnp/sp/webs";
+
+import "@pnp/graph/users";
+import "@pnp/sp/site-users/web";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 export class SharepointService
 {
-
-	static init()
+	static init(context : WebPartContext)
 	{
 		sp.setup({
-			sp: {
-			  baseUrl: "https://decoole.sharepoint.com/sites/laurens",
-			},
-		  });	  
-	}
-	
-	static getListByName(name : string): List
-	{
-		const spList : IList = sp.web.lists.getByTitle(name);
-		
-		return new List(spList);
+			spfxContext: context
+		});
 	}
 }

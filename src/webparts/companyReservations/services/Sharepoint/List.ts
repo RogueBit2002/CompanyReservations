@@ -1,4 +1,13 @@
-import { IList } from "@pnp/sp/lists";
+import { IChangeQuery, sp } from "@pnp/sp";
+import { IList, IListInfo, IListParentInfos } from "@pnp/sp/lists";
+import { IViewField } from "@pnp/spfx-controls-react/lib/ListView";
+import * as strings from "CompanyReservationsWebPartStrings";
+
+import { IField, IFieldInfo } from "@pnp/sp/fields/types";
+import "@pnp/sp/webs";
+import "@pnp/sp/lists/web";
+import "@pnp/sp/fields";
+import "@pnp/sp/views";
 
 export class List
 {
@@ -9,6 +18,28 @@ export class List
 		this.spList = list;
 	}
 
+
+	public static async create(name : string) : Promise<List>
+	{
+		const listEnsureResult = await sp.web.lists.ensure(name);
+
+		return new List(listEnsureResult.list);
+	}
+
+	public static getByName(name : string) : List
+	{
+		const spList : IList = sp.web.lists.getByTitle(name);
+	
+		return new List(spList);
+	}
+
+
+	public async getName() : Promise<string>
+	{
+		const name : string = await this.spList.select("Title")();
+
+		return name;
+	}
 	public async getItems(): Promise<any[]>
 	{
 		const items : any[] = await this.spList.items.get();
@@ -69,4 +100,30 @@ export class List
 
 		return validItems;
 	}
+
+
+	//Don't know if this is the right way to do it :/
+	public async getDefaultViewFields(names : string[]) : Promise<IViewField[]>
+	{
+		const fieldInfos : IFieldInfo[] = await this.spList.fields.filter("ReadOnlyField eq false and Hidden eq false and Group eq 'Custom Columns'").get();
+		let viewFields : IViewField[] = [];
+
+		for(let i = 0; i < fieldInfos.length; i ++)
+		{
+			let fieldInfo = fieldInfos[i];
+
+		
+			if(names.indexOf(fieldInfo.Title) > -1)
+			{
+				let viewField : IViewField = {
+					name: fieldInfo.Title,
+					displayName: fieldInfo.Title
+				}
+				viewFields.push(viewField);
+			}
+		}
+
+		return viewFields;
+	}
+
 }

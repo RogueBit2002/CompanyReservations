@@ -3,6 +3,8 @@ import styles from './CompanyReservations.module.scss';
 import { ICompanyReservationsProps } from './ICompanyReservationsProps';
 //import { escape } from '@microsoft/sp-lodash-subset';
 
+import { ListView, IViewField, SelectionMode, GroupOrder, IGrouping } from "@pnp/spfx-controls-react/lib/ListView";
+
 import { SharepointService } from "../services/Sharepoint/SharepointService";
 import { List } from '../services/Sharepoint/List';
 import { ICompanyReservationsState } from './ICompanyReservationsState';
@@ -17,26 +19,33 @@ export default class CompanyReservations extends React.Component<ICompanyReserva
 	{
 		super(props);
 
-		SharepointService.init();
-
 		this.state = {
 			createInput: "",
 			searchInput: "",
-			list: SharepointService.getListByName("Cool List")
+			list: List.getByName("Cool List"),
+			items: [],
+			views: []
 		}
+
+		this.updateItems();
+		
+		
 	}
 
-	public componentDidMount(): void {
-
+	public componentDidUpdate()
+	{
+		
 	}
+
 
 	public render(): React.ReactElement<ICompanyReservationsProps> {
+
 		return (
 			<div className={ styles.companyReservations }>
 				<div className={ styles.container }>
 					<div className={ styles.row }>
 						<div className={ styles.column }>
-							<span className={ styles.title }>Company Reservations</span>
+							<span className={ styles.title }>Cool Title :)</span>
 							<div>
 								<p className={ styles.description }>Create an item</p>
 								<TextField onChange={(event,value) => this.setState({createInput:value}) } label="Title:" />
@@ -47,6 +56,20 @@ export default class CompanyReservations extends React.Component<ICompanyReserva
 								<TextField onChange={(event,value) => this.setState({searchInput:value}) } label="Title:" />
 								<PrimaryButton text="Search" onClick={() => this.searchItems()} allowDisabledFocus />	
 							</div>
+							<ListView
+								items={this.state.items}
+								viewFields={this.state.views}
+								iconFieldName="ServerRelativeUrl"
+								compact={true}
+								selectionMode={SelectionMode.multiple}
+								//selection={this._getSelection}
+								showFilter={true}
+								//defaultFilter="John"
+								filterPlaceHolder="Search..."
+								//groupByFields={groupByFields}
+								dragDropFiles={true}
+								//onDrop={this._getDropFiles}
+								stickyHeader={true} />
 							<TestChildComponent description="-"></TestChildComponent>
 						</div>
 					</div>
@@ -55,9 +78,22 @@ export default class CompanyReservations extends React.Component<ICompanyReserva
 		);
 	}
 
-	private createItem()
+	private async createItem()
 	{
-		this.state.list.addItem({Title:this.state.createInput}).then(() => console.debug("Created a new item with title:",this.state.createInput));
+		await this.state.list.addItem({Title:this.state.createInput});
+		
+		console.debug("Created a new item with title:",this.state.createInput);
+			
+		await this.updateItems();
+		
+	}
+
+	private async updateItems()
+	{
+		const items : any[] = await this.state.list.getItems();
+		const views : IViewField[] = await this.state.list.getDefaultViewFields(["Title"]);
+
+		this.setState({items:items,views:views});
 	}
 
 	private searchItems()
