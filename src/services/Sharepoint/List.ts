@@ -112,25 +112,61 @@ export class List
 	}
 
 
-	//Don't know if this is the right way to do it :/
-	public async getDefaultViewFields(names : string[]) : Promise<IViewField[]>
+	public async getFieldInfos(reference : any) : Promise<IFieldInfo[]>
 	{
-		const fieldInfos : IFieldInfo[] = await this.spList.fields.filter("ReadOnlyField eq false and Hidden eq false and Group eq 'Custom Columns'").get();
+		const sourceFieldInfos : IFieldInfo[] = await this.spList.fields.get();//filter("ReadOnlyField eq false and Hidden eq false and Group eq 'Custom Columns'").get();
+		let fieldInfos : IFieldInfo[] = [];
+
+		let keys : string[] = Object.keys(reference);
+
+		for(let i = 0; i < sourceFieldInfos.length; i ++)
+		{
+			let fieldInfo = sourceFieldInfos[i];
+
+
+			let valid : boolean = true;
+			for(let j = 0; j < keys.length; j ++)
+			{
+				let key : string = keys[j];
+				if(fieldInfo[key] === undefined)
+				{
+					valid = false;
+					break;
+				}
+
+				if(reference[key].indexOf(fieldInfo[key]) == -1)
+				{
+					valid = false;
+					break;
+				}
+			}
+			
+			if(!valid)
+			{
+				continue;
+			}
+
+			fieldInfos.push(fieldInfo);
+		}
+
+		return fieldInfos;
+	}
+
+	//Don't know if this is the right way to do it :/
+	public async getDefaultViewFields(reference : any) : Promise<IViewField[]>
+	{
+		const fieldInfos : IFieldInfo[] = await this.getFieldInfos(reference);//filter("ReadOnlyField eq false and Hidden eq false and Group eq 'Custom Columns'").get();
 		let viewFields : IViewField[] = [];
 
 		for(let i = 0; i < fieldInfos.length; i ++)
 		{
-			let fieldInfo = fieldInfos[i];
-
-		
-			if(names.indexOf(fieldInfo.Title) > -1)
-			{
-				let viewField : IViewField = {
-					name: fieldInfo.Title,
-					displayName: fieldInfo.Title
-				}
-				viewFields.push(viewField);
+			const fieldInfo : IFieldInfo = fieldInfos[i];
+			let viewField : IViewField = {
+				name: fieldInfo.Title,
+				displayName: fieldInfo.Title
 			}
+			
+			viewFields.push(viewField);
 		}
 
 		return viewFields;
