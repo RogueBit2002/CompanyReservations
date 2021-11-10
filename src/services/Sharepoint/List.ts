@@ -77,6 +77,18 @@ export class List
 		await this.spList.items.add(data);
 	}
 
+	public async removeItem(id : number) : Promise<boolean>
+	{
+		try 
+		{
+			await this.spList.items.getById(id).delete();
+			return true;
+		} catch(e)
+		{
+			return false;
+		}
+	}
+
 	public async getItemsByValues(ref: any): Promise<any[]>
 	{
 		const items : any[] = await this.spList.items.get();

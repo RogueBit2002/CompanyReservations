@@ -12,7 +12,7 @@ import CompanyReservationsClient from './components/CompanyReservationsClient';
 import { ICompanyReservationsClientProps } from './components/ICompanyReservationsClientProps';
 import { SharepointService } from '../../services/Sharepoint/SharepointService';
 import { CompanyReservations } from '../../companyReservations/CompanyReservations';
-import { List } from '../../services/Sharepoint/List';
+import { Reservation } from '../../companyReservations/Reservation';
 
 export interface ICompanyReservationsClientWebPartProps {
   description: string;
@@ -27,9 +27,15 @@ export default class CompanyReservationsClientWebPart extends BaseClientSideWebP
 		
 		CompanyReservations.init();
 
-		List.getByName("CompanyReservations.Reservations.Rooms").getItems().then((items : any[]) => {
-			console.debug(items);
-		});
+		const f = async function()
+		{
+			const reservations : Reservation[] = await CompanyReservations.getReservations();
+			reservations.forEach((res : Reservation) => {
+				console.debug(res);
+			});
+		}
+
+		f();
 		
 	});
   }

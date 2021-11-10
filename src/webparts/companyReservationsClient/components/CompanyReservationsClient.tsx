@@ -11,7 +11,7 @@ import { IViewField, ListView } from '@pnp/spfx-controls-react/lib/ListView';
 import { CompanyReservations } from '../../../companyReservations/CompanyReservations';
 import { stubFalse } from 'lodash';
 import ReservationListView from './children/ReservationListView/ReservationListView';
-import { Room } from '../../../companyReservations/Room';
+import { Workspace } from '../../../companyReservations/Workspace';
 import { Reservation } from '../../../companyReservations/Reservation';
 
 export default class CompanyReservationsClient extends React.Component<ICompanyReservationsClientProps, ICompanyReservationsClientState> {
@@ -23,16 +23,6 @@ export default class CompanyReservationsClient extends React.Component<ICompanyR
 
 		this.state = {
 			//list: List.getByName("CompanyReservations.Catalog.Rooms"),
-			roomList: {
-				rooms: [],
-				views: []
-				
-			},
-
-			reservationList:
-			{
-				reservations: []
-			},
 
 			user: null
 		};
@@ -57,7 +47,7 @@ export default class CompanyReservationsClient extends React.Component<ICompanyR
 
 		//const reservations : Reservation[] = await CompanyReservations.getReservations();
 
-		const views : IViewField[] = await CompanyReservations.roomCatalog.getDefaultViewFields({
+		/*const views : IViewField[] = await CompanyReservations.roomCatalog.getDefaultViewFields({
 			"Title": ["Name", "Size"],
 			"Hidden": [false],
 			"ReadOnlyField": [false]
@@ -72,23 +62,44 @@ export default class CompanyReservationsClient extends React.Component<ICompanyR
 		}
 
 
-		const user : User = await User.getCurrent();
+		*/
+		/*const user : User = await User.getCurrent();
+		this.setState({user: user});*/
 	}
 
-	public render(): React.ReactElement<ICompanyReservationsClientProps> {
-		
-		const rooms : any[] = [];
+	private async onButtonClick()
+	{
+		const reservations : Reservation[] = await CompanyReservations.getReservations();
 
-		for(let i : number = 0; i < this.state.roomList.rooms.length; i ++)
+		for(let i = 0; i < reservations.length; i ++)
 		{
-			//rooms.push(this.state.roomList.rooms[i].toSPItem());
+			const user : User = await reservations[i].getReservee();
+
+			const workspace : Workspace = await reservations[i].getWorkspace();
+
+			const wss : string = await workspace.toString();
+			
+			//console.debug("Reservation > ", user.getEmail(), "-",wss);
 		}
 
+		const workspaces : Workspace[] = await CompanyReservations.getWorkspaces();
+
+
+		for(let i = 0; i < workspaces.length; i ++)
+		{
+			const workspace : Workspace = workspaces[i];
+			const name : string = await workspace.getName();
+			const size : number = await workspace.getSize();
+		}
+	}
+	public render(): React.ReactElement<ICompanyReservationsClientProps> 
+	{
 		return (
 			<div className={ styles.companyReservationsClient }>
 				<div className={ styles.container }>
 					<div className={ styles.row }>
 						<div className={ styles.column }>
+							<PrimaryButton onClick={() => this.onButtonClick()} text="Click me!"/> 
 							<Pivot className={styles.pivot}>
 								<PivotItem headerText="Uw Reserveringen" itemKey="ownReservations">
 									<div className={styles.pivotContent}>
@@ -103,8 +114,8 @@ export default class CompanyReservationsClient extends React.Component<ICompanyR
 												<div className={styles.pivotContent}>
 													<div className={styles.listViewContainer}>
 														<ListView
-														items={rooms}
-														viewFields={this.state.roomList.views}
+														items={[]}
+														viewFields={[]}
 														iconFieldName="ServerRelativeUrl"
 														compact={true}
 														selectionMode={SelectionMode.single}

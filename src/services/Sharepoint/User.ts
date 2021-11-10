@@ -1,40 +1,67 @@
 import { sp } from "@pnp/sp";
-import { ISiteUser } from "@pnp/sp/site-users/types";
+import { ISiteUser, ISiteUserProps } from "@pnp/sp/site-users/types";
+import { ThemeSettingName } from "@uifabric/styling";
 
+interface IUserCache
+{
+	name : string;
+	email : string;
+}
 export class User
 {
-	spUser : any;
+	private id : number;
 
-	constructor(user : ISiteUser)
+	private cache : IUserCache = 
 	{
-		this.spUser = user;
+		name: "",
+		email: ""
+	};
+
+	private constructor(id : number)
+	{
+		this.id = id;
 	}
 
+	public static async getById(id : number) : Promise<User>
+	{
+		const user : User = new User(id);
+		await user.update();
+
+		return user;
+	}
 
 	public static async getCurrent() : Promise<User>
 	{
-		const user : ISiteUser = await sp.web.currentUser();
-		return new User(user);
+		const siteUser : any = await sp.web.currentUser();
+		const id : number = siteUser.Id;
+
+		const user : User = new User(id);
+		await user.update();
+
+		return user;
 	}
 
-	public static getById(id : number) : User
+
+	public async update() : Promise<void>
 	{
-		const user : ISiteUser = sp.web.getUserById(id);
-		return new User(user);
+		const thing : any = await sp.web.getUserById(this.id).get();
+		this.cache.name = thing.Title;
+		this.cache.email = thing.Email;
 	}
+
 
 	public getName(): string
 	{
-		return this.spUser.Title;
+		return this.cache.name;
 	}
 
 	public getEmail() : string
 	{
-		return this.spUser.Email;
+		return this.cache.email;
 	}
 
 	public getId() : number
 	{
-		return this.spUser.Id;
+		return this.id;
 	}
 }
