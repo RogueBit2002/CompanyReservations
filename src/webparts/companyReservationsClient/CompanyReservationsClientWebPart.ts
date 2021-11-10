@@ -12,6 +12,7 @@ import CompanyReservationsClient from './components/CompanyReservationsClient';
 import { ICompanyReservationsClientProps } from './components/ICompanyReservationsClientProps';
 import { SharepointService } from '../../services/Sharepoint/SharepointService';
 import { CompanyReservations } from '../../companyReservations/CompanyReservations';
+import { List } from '../../services/Sharepoint/List';
 
 export interface ICompanyReservationsClientWebPartProps {
   description: string;
@@ -23,8 +24,13 @@ export default class CompanyReservationsClientWebPart extends BaseClientSideWebP
   {
 	return super.onInit().then(_ => {
 		SharepointService.init(this.context);
-
+		
 		CompanyReservations.init();
+
+		List.getByName("CompanyReservations.Reservations.Rooms").getItems().then((items : any[]) => {
+			console.debug(items);
+		});
+		
 	});
   }
   public render(): void {

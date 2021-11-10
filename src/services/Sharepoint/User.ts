@@ -17,9 +17,9 @@ export class User
 		return new User(user);
 	}
 
-	public static async getById(id : number) : Promise<User>
+	public static getById(id : number) : User
 	{
-		const user : ISiteUser = await sp.web.getUserById(id);
+		const user : ISiteUser = sp.web.getUserById(id);
 		return new User(user);
 	}
 

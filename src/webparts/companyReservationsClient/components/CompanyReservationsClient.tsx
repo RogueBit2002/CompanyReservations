@@ -3,11 +3,16 @@ import styles from './CompanyReservationsClient.module.scss';
 import { ICompanyReservationsClientProps } from './ICompanyReservationsClientProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 import { ICompanyReservationsClientState } from './ICompanyReservationsClientState';
-import { Pivot, PivotItem, PrimaryButton, SelectionMode } from 'office-ui-fabric-react';
+import { Pivot, PivotItem, PrimaryButton, SelectionMode, TextField } from 'office-ui-fabric-react';
 
 import { List } from '../../../services/Sharepoint/List';
 import { User } from '../../../services/Sharepoint/User';
-import { ListView } from '@pnp/spfx-controls-react/lib/ListView';
+import { IViewField, ListView } from '@pnp/spfx-controls-react/lib/ListView';
+import { CompanyReservations } from '../../../companyReservations/CompanyReservations';
+import { stubFalse } from 'lodash';
+import ReservationListView from './children/ReservationListView/ReservationListView';
+import { Room } from '../../../companyReservations/Room';
+import { Reservation } from '../../../companyReservations/Reservation';
 
 export default class CompanyReservationsClient extends React.Component<ICompanyReservationsClientProps, ICompanyReservationsClientState> {
 
@@ -17,9 +22,18 @@ export default class CompanyReservationsClient extends React.Component<ICompanyR
 		super(props);
 
 		this.state = {
-			list: List.getByName("Cool List"),
-			items: [],
-			views: [],
+			//list: List.getByName("CompanyReservations.Catalog.Rooms"),
+			roomList: {
+				rooms: [],
+				views: []
+				
+			},
+
+			reservationList:
+			{
+				reservations: []
+			},
+
 			user: null
 		};
 
@@ -37,72 +51,82 @@ export default class CompanyReservationsClient extends React.Component<ICompanyR
 
 	}
 
-	private updateState()
+	private async updateState()
 	{
-		this.state.list.getItems().then((items : any[]) => {
-			this.setState({items:items});
-			console.debug("List Items: ", items);
+		//const rooms : Room[] = await CompanyReservations.getRooms();
 
+		//const reservations : Reservation[] = await CompanyReservations.getReservations();
+
+		const views : IViewField[] = await CompanyReservations.roomCatalog.getDefaultViewFields({
+			"Title": ["Name", "Size"],
+			"Hidden": [false],
+			"ReadOnlyField": [false]
 		});
 
 
-		this.state.list.getDefaultViewFields(
-			{
-				"Title": ["Title", "CoolIemand"],
-				"Hidden": [false],
-				"Group": ["Custom Columns"],
-				"ReadOnlyField": [false]
-			}).then((a) => {
 
-			for(let i = 0; i < a.length; i ++)
-			{
-				a[i].maxWidth = 200;
-				a[i].minWidth = 200;
-			}
+		for(let i = 0; i < views.length; i ++)
+		{
+			views[i].maxWidth = 200;
+			views[i].minWidth = 200;
+		}
 
-			this.setState({views:a});
-		});
 
-		User.getCurrent().then((user : User) => {
-			this.setState({user:user});
-		});
-
+		const user : User = await User.getCurrent();
 	}
+
 	public render(): React.ReactElement<ICompanyReservationsClientProps> {
 		
-		const name : string = this.state.user == null ? "" : this.state.user.getName();
+		const rooms : any[] = [];
+
+		for(let i : number = 0; i < this.state.roomList.rooms.length; i ++)
+		{
+			//rooms.push(this.state.roomList.rooms[i].toSPItem());
+		}
 
 		return (
 			<div className={ styles.companyReservationsClient }>
 				<div className={ styles.container }>
 					<div className={ styles.row }>
 						<div className={ styles.column }>
-							<span className = {styles.subTitle}>Hallo {name}!</span>
-							{ /*<PrimaryButton onClick={() => this.updateState()} label="Yoo"/> */ }
 							<Pivot className={styles.pivot}>
-								<PivotItem headerText="Reserveren">
+								<PivotItem headerText="Uw Reserveringen" itemKey="ownReservations">
 									<div className={styles.pivotContent}>
-										<div className={styles.listViewContainer}>
-											<ListView
-											items={this.state.items}
-											viewFields={this.state.views}
-											iconFieldName="ServerRelativeUrl"
-											compact={true}
-											selectionMode={SelectionMode.single}
-											//selection={this._getSelection}
-											showFilter={true}
-											//defaultFilter="John"
-											filterPlaceHolder="Search..."
-											//groupByFields={groupByFields}
-											dragDropFiles={true}
-											//onDrop={this._getDropFiles}
-											stickyHeader={true} />
-										</div>
+										<ReservationListView user={this.state.user} reservations={[]}/>
 									</div>
 								</PivotItem>
-								<PivotItem headerText="UwU Reservaties">
+								<PivotItem headerText="Reserveren" itemKey="Reserve">
 									<div className={styles.pivotContent}>
-										
+
+										<Pivot className={styles.pivot}>
+											<PivotItem headerText="Werkruimtes">
+												<div className={styles.pivotContent}>
+													<div className={styles.listViewContainer}>
+														<ListView
+														items={rooms}
+														viewFields={this.state.roomList.views}
+														iconFieldName="ServerRelativeUrl"
+														compact={true}
+														selectionMode={SelectionMode.single}
+														//selection={this._getSelection}
+														showFilter={true}
+														//defaultFilter="John"
+														filterPlaceHolder="Search..."
+														//groupByFields={groupByFields}
+														dragDropFiles={true}
+														//onDrop={this._getDropFiles}
+														stickyHeader={true} />
+													</div>
+												</div>
+											</PivotItem>
+											<PivotItem headerText="Apparatuur">
+												<div className={styles.pivotContent}>
+													<p>
+														B
+													</p>
+												</div>
+											</PivotItem>
+										</Pivot>
 									</div>
 								</PivotItem>
 							</Pivot>

@@ -115,6 +115,18 @@ $secondaryColor: "[theme: themeSecondary, default: #0078d7]";
 	}
 
 
+	.mainPivotContent
+	{
+		margin-top:20px;
+		@include ms-fontColor-white;
+	}
+
+	.subPivotContent
+	{
+		margin-top:20px;
+		margin-left:20px;
+	}
+
 	.listViewContainer
 	{
 		

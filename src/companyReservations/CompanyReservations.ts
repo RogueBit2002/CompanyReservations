@@ -1,14 +1,21 @@
 import { List } from "../services/Sharepoint/List";
-import { DataManager } from "./DataManager";
+import { User } from "../services/Sharepoint/User";
+import { Reservation } from "./Reservation";
+import { Room } from "./Room";
 
 export class CompanyReservations
 {
-	static catalogList : List;
+	static roomCatalog : List;
+	static roomReservations : List;
 
-	static readonly dataManager : DataManager = new DataManager();
+
+	private rooms : Room[] = [];
+	private roomReservations : Reservation[] = [];
 
 	public static async init() : Promise<void>
-	{
-		await this.dataManager.init();	
+	{	
+		this.roomCatalog = List.getByName("CompanyReservations.Catalog.Rooms");
+		this.roomReservations = List.getByName("CompanyReservations.Reservations.Rooms");
 	}
+
 }

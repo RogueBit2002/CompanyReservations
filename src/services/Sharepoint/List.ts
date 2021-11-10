@@ -26,14 +26,17 @@ export class List
 
 	public static async exists(name : string) : Promise<boolean>
 	{
-		const listEnsureResult = await sp.web.lists.ensure(name);
+		const list : IList = sp.web.lists.getByTitle(name);
 
-		if(listEnsureResult.created)
+		try
 		{
-			await listEnsureResult.list.delete();
+			await list.select("Title")();
+		} catch (e)
+		{
+			return false;
 		}
-		
-		return !listEnsureResult.created;
+
+		return true;
 	}
 
 	public static getByName(name : string) : List
@@ -43,6 +46,18 @@ export class List
 		return new List(spList);
 	}
 
+	public async exists() : Promise<boolean>
+	{
+		try
+		{
+			await this.spList.select("Title")();
+		} catch(e)
+		{
+			return false;
+		}
+
+		return true;
+	}
 
 	public async getName() : Promise<string>
 	{
