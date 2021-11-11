@@ -26,16 +26,6 @@ export default class CompanyReservationsClientWebPart extends BaseClientSideWebP
 		SharepointService.init(this.context);
 		
 		CompanyReservations.init();
-
-		const f = async function()
-		{
-			const reservations : Reservation[] = await CompanyReservations.getReservations();
-			reservations.forEach((res : Reservation) => {
-				console.debug(res);
-			});
-		}
-
-		f();
 		
 	});
   }

@@ -6,5 +6,4 @@ import { User } from "../../../services/Sharepoint/User";
 
 export interface ICompanyReservationsClientState
 {
-	user : User;
 }
