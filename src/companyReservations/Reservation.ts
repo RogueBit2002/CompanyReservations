@@ -60,6 +60,10 @@ export class Reservation
 		this.cache.endDate = endDate;
 	}
 
+	public getId() : number
+	{
+		return this.id;
+	}
 	public getReservee() : User
 	{
 		return this.cache.reservee;	
