@@ -99,48 +99,7 @@ export default class CompanyReservationsClient extends React.Component<ICompanyR
 				<div className={ styles.container }>
 					<div className={ styles.row }>
 						<div className={ styles.column }>
-							<PrimaryButton onClick={() => this.onButtonClick()} text="Click me!"/> 
-							<Pivot className={styles.pivot}>
-								<PivotItem headerText="Uw Reserveringen" itemKey="ownReservations">
-									<div className={styles.pivotContent}>
-										<ReservationListView user={this.state.user} reservations={[]}/>
-									</div>
-								</PivotItem>
-								<PivotItem headerText="Reserveren" itemKey="Reserve">
-									<div className={styles.pivotContent}>
-
-										<Pivot className={styles.pivot}>
-											<PivotItem headerText="Werkruimtes">
-												<div className={styles.pivotContent}>
-													<div className={styles.listViewContainer}>
-														<ListView
-														items={[]}
-														viewFields={[]}
-														iconFieldName="ServerRelativeUrl"
-														compact={true}
-														selectionMode={SelectionMode.single}
-														//selection={this._getSelection}
-														showFilter={true}
-														//defaultFilter="John"
-														filterPlaceHolder="Search..."
-														//groupByFields={groupByFields}
-														dragDropFiles={true}
-														//onDrop={this._getDropFiles}
-														stickyHeader={true} />
-													</div>
-												</div>
-											</PivotItem>
-											<PivotItem headerText="Apparatuur">
-												<div className={styles.pivotContent}>
-													<p>
-														B
-													</p>
-												</div>
-											</PivotItem>
-										</Pivot>
-									</div>
-								</PivotItem>
-							</Pivot>
+							
 						</div>
 					</div>
 				</div>
