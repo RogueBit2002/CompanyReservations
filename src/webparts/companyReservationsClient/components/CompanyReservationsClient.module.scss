@@ -2,20 +2,19 @@
 $primaryColor: "[theme: themePrimary, default: #0078d7]";
 $secondaryColor: "[theme: themeSecondary, default: #0078d7]";
 
+
 .companyReservationsClient {
 
 	.container {
 		// max-width: 700px;
 		margin: 0px auto;
 		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
-
-		
 	}
 
 	.row {
 		@include ms-Grid-row;
 		@include ms-fontColor-white;
-		background-color: "[theme: themeDark, default: #0078d7]";
+		// background-color: "[theme: themeDark, default: #0078d7]";
 		padding: 20px;
 		height:600px;
 		overflow:scroll;
@@ -31,17 +30,17 @@ $secondaryColor: "[theme: themeSecondary, default: #0078d7]";
 
 	.title {
 		@include ms-font-xl;
-		@include ms-fontColor-white;
+		// @include ms-fontColor-white;
 	}
 
 	.subTitle {
 		@include ms-font-l;
-		@include ms-fontColor-white;
+		// @include ms-fontColor-white;
 	}
 
 	.description {
 		@include ms-font-l;
-		@include ms-fontColor-white;
+		// @include ms-fontColor-white;
 	}
 
 	.button {
@@ -83,14 +82,8 @@ $secondaryColor: "[theme: themeSecondary, default: #0078d7]";
 	{
 		span
 		{
-			@include ms-fontColor-white;
+			// @include ms-fontColor-white;
 		}
-
-
-		/*div[role="tablist"]
-		{
-			//display: inline-block;
-		}*/
 
 		button[role="tab"]
 		{
@@ -110,29 +103,6 @@ $secondaryColor: "[theme: themeSecondary, default: #0078d7]";
 	.pivotContent
 	{
 		margin-top:20px;
-		@include ms-fontColor-white;
-
-	}
-
-
-	.mainPivotContent
-	{
-		margin-top:20px;
-		@include ms-fontColor-white;
-	}
-
-	.subPivotContent
-	{
-		margin-top:20px;
-		margin-left:20px;
-	}
-
-	.listViewContainer
-	{
-		
-		span[role="button"] span
-		{
-			color: "[theme: neutralSecondary, default: #444444]";
-		}
+		// @include ms-fontColor-white;
 	}
 }
