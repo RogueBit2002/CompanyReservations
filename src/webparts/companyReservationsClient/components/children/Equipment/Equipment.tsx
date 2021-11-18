@@ -1,19 +1,39 @@
 import * as React from 'react';
 import { IStackTokens, Stack } from 'office-ui-fabric-react';
 import { Dropdown, DropdownMenuItemType, IDropdownStyles, IDropdownOption, DatePicker } from 'office-ui-fabric-react';
-import { DateTimePicker} from '@pnp/spfx-controls-react/lib/dateTimePicker';
+import { DateTimePicker, DateConvention, TimeConvention, TimeDisplayControlType } from '@pnp/spfx-controls-react/lib/dateTimePicker';
 import styles from './Equipment.module.scss';
 
 import { IEquipmentProps } from './IEquipmentProps';
 import { IEquipmentState } from './IEquipmentState';
+import { values } from 'lodash';
 
 export default class CompanyReservationsClient extends React.Component<IEquipmentProps, IEquipmentState> {
+
+    
 
 	constructor(props : IEquipmentProps)
 	{
 		super(props);
+
+        this.state = {
+            firstDate: new Date,
+            secondDate: new Date
+        }
 	}
 
+    private setFirstDate(Date: Date) : void{
+        this.setState({
+            firstDate: Date,
+            secondDate: Date
+        });
+    }
+
+    private setSecondDate(Date: Date) : void{
+        this.setState({
+            secondDate: Date
+        });
+    }
     
 	public render(): React.ReactElement<IEquipmentProps> 
 	{
@@ -36,8 +56,25 @@ export default class CompanyReservationsClient extends React.Component<IEquipmen
                 options={options}
                 className = {styles.dropdown}
             />
-            <DatePicker></DatePicker>
-            <DateTimePicker></DateTimePicker>
+            <DateTimePicker
+            timeDisplayControlType={TimeDisplayControlType.Dropdown}
+            timeConvention={TimeConvention.Hours24}
+            minutesIncrementStep={15}
+            label="Start time"
+            minDate={this.state.firstDate}
+            value={this.state.firstDate}
+            onChange={values => {this.setFirstDate(values)}}
+            ></DateTimePicker>
+
+            <DateTimePicker
+            timeDisplayControlType={TimeDisplayControlType.Dropdown}
+            timeConvention={TimeConvention.Hours24}
+            minutesIncrementStep={15}
+            label="Start time"
+            minDate={this.state.secondDate}
+            value={this.state.secondDate}
+            onChange={values => {this.setSecondDate(values)}}
+            ></DateTimePicker>
             </div>
 		);
 	}
