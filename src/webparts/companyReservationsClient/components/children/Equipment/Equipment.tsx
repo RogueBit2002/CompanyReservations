@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IStackTokens, Stack } from 'office-ui-fabric-react';
-import { Dropdown, DropdownMenuItemType, IDropdownStyles, IDropdownOption, DatePicker } from 'office-ui-fabric-react';
+import { Dropdown, DropdownMenuItemType, IDropdownStyles, IDropdownOption, DatePicker, MaskedTextField, TextField } from 'office-ui-fabric-react';
 import { DateTimePicker, DateConvention, TimeConvention, TimeDisplayControlType } from '@pnp/spfx-controls-react/lib/dateTimePicker';
 import styles from './Equipment.module.scss';
 
@@ -49,15 +49,26 @@ export default class CompanyReservationsClient extends React.Component<IEquipmen
             { key: 'VR-headset1', text: 'VR-headset' },
         ];
 
+        const maskFormat: { [key: string]: RegExp } = {
+            '*': /[0-9]/,
+            };
 		return (
             <div>
                 <Dropdown
-                placeholder="Select an option"
-                label="Select a Device and start date"
+                placeholder="Selecteer een werkruimte"
+                label="Selecteer een datum en tijd"
                 options={options}
                 className = {styles.dropdown}
             />
-            <DateTimePicker
+            <DatePicker
+            isRequired
+            minDate={this.state.currentDate}
+            value={this.state.firstDate}
+            onSelectDate={values => {this.setFirstDate(values)}}
+            ></DatePicker>
+            {/* <MaskedTextField label="With input mask" mask="date: ****" maskFormat={maskFormat} maskChar="-" /> */}
+            <TextField label="Time TextField" type="time"></TextField>
+            {/* <DateTimePicker
             timeDisplayControlType={TimeDisplayControlType.Dropdown}
             timeConvention={TimeConvention.Hours24}
             minutesIncrementStep={15}
@@ -65,19 +76,14 @@ export default class CompanyReservationsClient extends React.Component<IEquipmen
             minDate={this.state.currentDate}
             value={this.state.firstDate}
             onChange={values => {this.setFirstDate(values)}}
-            ></DateTimePicker>
+            ></DateTimePicker> */}
 
-            <DateTimePicker
-            timeDisplayControlType={TimeDisplayControlType.Dropdown}
-            timeConvention={TimeConvention.Hours24}
-            minutesIncrementStep={15}
-            label="Start time"
-            minDate={this.state.secondDate}
-            value={this.state.secondDate}
-            onChange={values => {this.setSecondDate(values)}}
-            ></DateTimePicker>
+            <h1>reservations {this.state.firstDate.toDateString()}</h1>
             <div className = {styles.reservationlist}>
                 <p>reservation 9:00 - 12:00</p>
+            </div>
+            <div className = {styles.reservationlist}>
+                <p>reservation 12:00 - 16:00</p>
             </div>
             </div>
 		);

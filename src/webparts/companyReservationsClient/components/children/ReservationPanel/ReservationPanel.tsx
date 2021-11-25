@@ -18,24 +18,16 @@ export default class CompanyReservationsClient extends React.Component<IReservat
             isOpen: false
         }
 	}
-
-    private onbtnklik() : void {
-        this.setState(
-            {
-                isOpen: !this.state.isOpen
-            }
-        );
-    }
     
 	public render(): React.ReactElement<IReservationPanelProps> 
 	{
         return (
             <div>
-            <DefaultButton text="Make reservation" onClick={() => {this.onbtnklik();}} />
+            <DefaultButton text="Make reservation" onClick={() => {this.setState({isOpen:true})}} />
             <Panel
                 headerText="Make Reservation"
                 isOpen={this.state.isOpen}
-                onDismiss={() => {this.onbtnklik();}}
+                onDismiss={() => {this.setState({isOpen:false})}}
                 // You MUST provide this prop! Otherwise screen readers will just say "button" with no label.
                 closeButtonAriaLabel="Close">
                 <Pivot>

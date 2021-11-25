@@ -7,6 +7,5 @@ $secondaryColor: "[theme: themeSecondary, default: #0078d7]";
 }
 
 .reservationlist{
-    border-bottom-color: $primaryColor;
-    border-radius: 3;
+    border-bottom: 2px solid $secondaryColor;
 }
