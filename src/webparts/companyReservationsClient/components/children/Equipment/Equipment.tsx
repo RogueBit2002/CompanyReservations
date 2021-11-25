@@ -18,7 +18,8 @@ export default class CompanyReservationsClient extends React.Component<IEquipmen
 
         this.state = {
             firstDate: new Date,
-            secondDate: new Date
+            secondDate: new Date,
+            currentDate: new Date
         }
 	}
 
@@ -52,7 +53,7 @@ export default class CompanyReservationsClient extends React.Component<IEquipmen
             <div>
                 <Dropdown
                 placeholder="Select an option"
-                label="Basic uncontrolled example"
+                label="Select a Device and start date"
                 options={options}
                 className = {styles.dropdown}
             />
@@ -61,7 +62,7 @@ export default class CompanyReservationsClient extends React.Component<IEquipmen
             timeConvention={TimeConvention.Hours24}
             minutesIncrementStep={15}
             label="Start time"
-            minDate={this.state.firstDate}
+            minDate={this.state.currentDate}
             value={this.state.firstDate}
             onChange={values => {this.setFirstDate(values)}}
             ></DateTimePicker>
@@ -75,6 +76,9 @@ export default class CompanyReservationsClient extends React.Component<IEquipmen
             value={this.state.secondDate}
             onChange={values => {this.setSecondDate(values)}}
             ></DateTimePicker>
+            <div className = {styles.reservationlist}>
+                <p>reservation 9:00 - 12:00</p>
+            </div>
             </div>
 		);
 	}

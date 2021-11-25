@@ -33,7 +33,7 @@ export default class CompanyReservationsClient extends React.Component<IReservat
             <div>
             <DefaultButton text="Make reservation" onClick={() => {this.onbtnklik();}} />
             <Panel
-                headerText="Sample panel"
+                headerText="Make Reservation"
                 isOpen={this.state.isOpen}
                 onDismiss={() => {this.onbtnklik();}}
                 // You MUST provide this prop! Otherwise screen readers will just say "button" with no label.
