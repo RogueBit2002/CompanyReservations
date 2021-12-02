@@ -4,6 +4,7 @@ import { DefaultButton, Pivot, PivotItem, DatePicker } from 'office-ui-fabric-re
 
 import styles from './ReservationPanel.module.scss';
 import Equipment from '../Equipment/Equipment';
+import WorkSpaces from '../WorkSpaces/WorkSpaces';
 
 import { IReservationPanelProps } from './IReservationPanelProps';
 import { IReservationPanelState } from './IReservationPanelState';
@@ -33,7 +34,7 @@ export default class CompanyReservationsClient extends React.Component<IReservat
                 <Pivot>
                     <PivotItem headerText="WorkSpace">
                         <div>
-                            <Equipment></Equipment>
+                            <WorkSpaces></WorkSpaces>
                         </div>
                     </PivotItem>
                     <PivotItem headerText="Equipment">
