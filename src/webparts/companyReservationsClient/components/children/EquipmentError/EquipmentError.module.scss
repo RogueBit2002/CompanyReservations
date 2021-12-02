@@ -1,0 +1,12 @@
+@import '~office-ui-fabric-react/dist/sass/References.scss';
+$primaryColor: "[theme: themePrimary, default: #0078d7]";
+$secondaryColor: "[theme: themeSecondary, default: #0078d7]";
+
+.dropdown{
+    background-color: transparent;
+}
+
+.reservationlist{
+    border-bottom-color: $primaryColor;
+    border-radius: 3;
+}
