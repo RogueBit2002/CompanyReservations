@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Dropdown, DropdownMenuItemType, IDropdownStyles, IDropdownOption, DatePicker, MaskedTextField, TextField } from 'office-ui-fabric-react';
+import { Dropdown, DropdownMenuItemType, IDropdownStyles, IDropdownOption, DatePicker, MaskedTextField, TextField, PrimaryButton } from 'office-ui-fabric-react';
 import styles from './Equipment.module.scss';
 
 import { IEquipmentProps } from './IEquipmentProps';
 import { IEquipmentState } from './IEquipmentState';
-import { values } from 'lodash';
 
 export default class CompanyReservationsClient extends React.Component<IEquipmentProps, IEquipmentState> {
 
@@ -22,6 +21,10 @@ export default class CompanyReservationsClient extends React.Component<IEquipmen
         this.setState({
             firstDate: Date,
         });
+    }
+
+    private submit() : void{
+        
     }
     
 	public render(): React.ReactElement<IEquipmentProps> 
@@ -55,7 +58,10 @@ export default class CompanyReservationsClient extends React.Component<IEquipmen
             ></DatePicker>
             <TextField required label="Start Tijd" type="time"></TextField>
             <TextField required label="Eind Tijd" type="time"></TextField>
-            
+            <PrimaryButton
+            text="Reserveer"
+            onClick={() => {this.submit}}
+            />
 
             <h1>Reserveringen {this.state.firstDate.toLocaleDateString()}</h1>
             <div className = {styles.reservationlist}>

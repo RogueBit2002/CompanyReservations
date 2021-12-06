@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Dropdown, DropdownMenuItemType, IDropdownStyles, IDropdownOption, DatePicker, MaskedTextField, TextField } from 'office-ui-fabric-react';
+import { Dropdown, DropdownMenuItemType, IDropdownStyles, IDropdownOption, DatePicker, MaskedTextField, TextField, PrimaryButton } from 'office-ui-fabric-react';
 import styles from './WorkSpaces.module.scss';
 
 import { IWorkSpacesProps } from './IWorkSpacesProps';
@@ -54,6 +54,9 @@ export default class CompanyReservationsClient extends React.Component<IWorkSpac
             ></DatePicker>
             <TextField required label="Start Tijd" type="time"></TextField>
             <TextField required label="Eind Tijd" type="time"></TextField>
+            <PrimaryButton
+            text="Reserveer"
+            />
             
 
             <h1>Reserveringen {this.state.firstDate.toLocaleDateString()}</h1>

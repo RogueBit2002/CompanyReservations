@@ -10,6 +10,7 @@ import { Pivot, PivotItem, PrimaryButton, SelectionMode, TextField } from 'offic
 import { stubFalse } from 'lodash';
 import Equipment from './children/Equipment/Equipment';
 import ReservationPanel from './children/ReservationPanel/ReservationPanel';
+import ReservationList from './children/ReservationList/ReservationList';
 
 export default class CompanyReservationsClient extends React.Component<ICompanyReservationsClientProps, ICompanyReservationsClientState> {
 
@@ -25,15 +26,20 @@ export default class CompanyReservationsClient extends React.Component<ICompanyR
 	public render(): React.ReactElement<ICompanyReservationsClientProps> 
 	{
 		return (
-			<div className={ styles.companyReservationsClient }>
-				<div className={ styles.container }>
-					<div className={ styles.row }>
-						<div className={ styles.column }>
-							<ReservationPanel></ReservationPanel>
-						</div>
-					</div>
-				</div>
+			<div>
+				<ReservationPanel></ReservationPanel>
+				<ReservationList></ReservationList>
 			</div>
+			// <div className={ styles.companyReservationsClient }>
+			// 	<div className={ styles.container }>
+			// 		<div className={ styles.row }>
+			// 			<div className={ styles.column }>
+			// 				<ReservationPanel></ReservationPanel>
+
+			// 			</div>
+			// 		</div>
+			// 	</div>
+			// </div>
 		);
 	}
 }
