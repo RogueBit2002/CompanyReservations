@@ -1,9 +1,7 @@
 import * as React from 'react';
 import styles from './CompanyReservationsClient.module.scss';
 import { ICompanyReservationsClientProps } from './ICompanyReservationsClientProps';
-import { escape } from '@microsoft/sp-lodash-subset';
 import { ICompanyReservationsClientState } from './ICompanyReservationsClientState';
-import { Pivot, PivotItem, PrimaryButton, SelectionMode, TextField } from 'office-ui-fabric-react';
 
 
 
@@ -19,8 +17,6 @@ export default class CompanyReservationsClient extends React.Component<ICompanyR
 		this.state = {
 
 		};
-
-		
 	}
 
 	public componentDidMount()

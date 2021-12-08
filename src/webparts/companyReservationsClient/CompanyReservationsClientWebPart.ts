@@ -10,6 +10,10 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'CompanyReservationsClientWebPartStrings';
 import CompanyReservationsClient from './components/CompanyReservationsClient';
 import { ICompanyReservationsClientProps } from './components/ICompanyReservationsClientProps';
+import { SharepointService } from '../../services/Sharepoint/SharepointService';
+import { CompanyReservations } from '../../companyReservations/CompanyReservations';
+import { Reservation } from '../../companyReservations/Reservation';
+import { User } from '../../services/Sharepoint/User';
 
 export interface ICompanyReservationsClientWebPartProps {
   description: string;
@@ -20,6 +24,24 @@ export default class CompanyReservationsClientWebPart extends BaseClientSideWebP
   public async onInit() : Promise<void>
   {
 	return super.onInit().then(_ => {
+		
+		CompanyReservations.init();
+
+
+
+		async function f()
+		{
+			const user : User = await User.getCurrent();
+
+
+			const start : Date = new Date();
+			const end : Date = new Date(start.getTime() + 1000);
+
+			const workspaceId : number = 1;
+			await Reservation.create(workspaceId,user,start,end);
+		}
+
+		//f();
 		
 	});
   }
