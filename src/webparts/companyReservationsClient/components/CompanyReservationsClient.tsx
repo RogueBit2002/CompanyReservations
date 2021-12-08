@@ -6,6 +6,7 @@ import { ICompanyReservationsClientState } from './ICompanyReservationsClientSta
 
 
 import { stubFalse } from 'lodash';
+import { Pivot, PivotItem } from 'office-ui-fabric-react';
 
 export default class CompanyReservationsClient extends React.Component<ICompanyReservationsClientProps, ICompanyReservationsClientState> {
 

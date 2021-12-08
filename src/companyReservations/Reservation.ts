@@ -87,7 +87,7 @@ export class Reservation
 		this.cache.endDate = endDate;
 	}
 
-	public getId() : number
+	public gdtId() : number
 	{
 		return this.id;
 	}
