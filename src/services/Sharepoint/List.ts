@@ -7,6 +7,8 @@ import "@pnp/sp/webs";
 import "@pnp/sp/lists/web";
 import "@pnp/sp/fields";
 import "@pnp/sp/views";
+import { IItemAddResult } from "@pnp/sp/items";
+
 
 export class List
 {
@@ -72,9 +74,10 @@ export class List
 		return items;
 	}
 
-	public async addItem(data: any)
+	public async addItem(data: any) : Promise<any>
 	{
-		await this.spList.items.add(data);
+		const result : IItemAddResult = await this.spList.items.add(data);
+		return result.data;
 	}
 
 	public async removeItem(id : number) : Promise<boolean>

@@ -1,5 +1,4 @@
 import { User } from "../services/Sharepoint/User";
-import CompanyReservationsAdminWebPart from "../webparts/companyReservationsAdmin/CompanyReservationsAdminWebPart";
 import { CompanyReservations } from "./CompanyReservations";
 import { Workspace } from "./Workspace";
 
@@ -27,6 +26,34 @@ export class Reservation
 		const reservation : Reservation = new Reservation(id);
 		await reservation.update();
 		return reservation;
+	}
+
+	
+	public static async create(workspaceId : number, reservee : User, startDate : Date, endDate : Date)
+	{
+		const items : any[] = await CompanyReservations.workspaceReservations.getItems();
+
+		const item : any = {
+			ReserveeId: {
+				results: [reservee.getId()]
+			},
+			StartDate: startDate.toISOString(),
+			EndDate: endDate.toISOString(),
+			WorkspaceId: workspaceId
+		}
+		
+
+		try
+		{
+			const result : any = await CompanyReservations.workspaceReservations.addItem(item);
+			
+			const reservation : Reservation = await Reservation.getBySPItem(result);
+
+			return reservation;
+		} catch(e)
+		{
+			return null;
+		}
 	}
 
 	public static async getBySPItem(item : any) : Promise<Reservation>
