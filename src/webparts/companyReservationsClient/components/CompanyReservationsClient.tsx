@@ -6,9 +6,6 @@ import { ICompanyReservationsClientState } from './ICompanyReservationsClientSta
 import { Pivot, PivotItem, PrimaryButton, SelectionMode, TextField } from 'office-ui-fabric-react';
 
 
-
-import { stubFalse } from 'lodash';
-import Equipment from './children/Equipment/Equipment';
 import ReservationPanel from './children/ReservationPanel/ReservationPanel';
 import ReservationList from './children/ReservationList/ReservationList';
 
