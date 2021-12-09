@@ -28,8 +28,12 @@ export default class CompanyReservationsClient extends React.Component<IWorkSpac
         console.debug(CompanyReservations.getWorkspaces());
     }
 
-    makereservation(): void{
+    async makereservation(){
 
+    }
+
+    async newtest(){
+        
     }
     
     public render(): React.ReactElement<IWorkSpacesProps> 

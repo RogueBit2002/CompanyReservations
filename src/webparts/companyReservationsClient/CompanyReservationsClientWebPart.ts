@@ -21,10 +21,11 @@ export interface ICompanyReservationsClientWebPartProps {
 
 export default class CompanyReservationsClientWebPart extends BaseClientSideWebPart<ICompanyReservationsClientWebPartProps> {
 
+
   public async onInit() : Promise<void>
   {
 	return super.onInit().then(_ => {
-		
+		SharepointService.init(this.context);
 		CompanyReservations.init();
 
 
