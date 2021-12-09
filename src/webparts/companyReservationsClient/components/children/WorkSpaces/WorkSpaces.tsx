@@ -4,7 +4,10 @@ import styles from './WorkSpaces.module.scss';
 
 import { IWorkSpacesProps } from './IWorkSpacesProps';
 import { IWorkSpacesState } from './IWorkSpacesState';
-import { values } from 'lodash';
+import { toNumber, values } from 'lodash';
+import { Workspace } from '../../../../../companyReservations/Workspace';
+import * as strings from 'CompanyReservationsAdminWebPartStrings';
+import { CompanyReservations } from "../../../../../companyReservations/CompanyReservations";
 
 export default class CompanyReservationsClient extends React.Component<IWorkSpacesProps, IWorkSpacesState>{
 
@@ -14,27 +17,38 @@ export default class CompanyReservationsClient extends React.Component<IWorkSpac
 
         this.state = {
             firstDate: new Date,
-            currentDate: new Date
+            currentDate: new Date,
+            workspaceId: 0,
+            startTime: "",
+            endTime: "",
         }
 	}
 
-    private setFirstDate(Date: Date) : void{
-        this.setState({
-            firstDate: Date,
-        });
+    componentDidMount(): void {
+        console.debug(CompanyReservations.getWorkspaces());
     }
 
+    makereservation(): void{
+
+    }
+    
     public render(): React.ReactElement<IWorkSpacesProps> 
 	{
         const options: IDropdownOption[] = [
             { key: 'BG', text: 'Begane grond', itemType: DropdownMenuItemType.Header },
-            { key: '0-1', text: 'Vergaderkamer 0-1' },
-            { key: '0-2', text: 'Vergaderkamer 0-2' },
+            { key: '1', text: 'Vergaderkamer 0-1', itemType: DropdownMenuItemType.Normal},
+            { key: '2', text: 'Vergaderkamer 0-2' },
             { key: 'V1', text: 'Verdieping 1', itemType: DropdownMenuItemType.Header },
-            { key: '1-1', text: 'Vergaderkamer 1-1' },
-            { key: '1-2', text: 'Vergaderkamer 1-2' },
-            { key: '1-3', text: 'Vergaderkamer 1-3' },
+            { key: '3', text: 'Vergaderkamer 1-1' },
+            { key: '4', text: 'Vergaderkamer 1-2' },
+            { key: '5', text: 'Vergaderkamer 1-3' },
         ];
+
+        const maskFormat: { [key: string]: RegExp } = {
+            '*': /[0-9_]/,
+            '%':/[0-2_]/,
+            '#':/[0-5_]/,
+        };
 
 		return (
             <div>
@@ -44,18 +58,27 @@ export default class CompanyReservationsClient extends React.Component<IWorkSpac
                 label="Selecteer een werkruimte"
                 options={options}
                 className = {styles.dropdown}
+                onChange={(e, selectedOption) => {
+                    console.debug(selectedOption);
+                    this.setState({workspaceId: toNumber(selectedOption.key.toString())});
+                }}
             />
             <DatePicker
             label="Selecteer een datum"
             isRequired
             minDate={this.state.currentDate}
             value={this.state.firstDate}
-            onSelectDate={values => {this.setFirstDate(values)}}
+            onSelectDate={values => {this.setState({firstDate : values})}}
             ></DatePicker>
-            <TextField required label="Start Tijd" type="time"></TextField>
-            <TextField required label="Eind Tijd" type="time"></TextField>
+
+            <MaskedTextField label="Start Tijd" mask="%*:#*" maskFormat={maskFormat} maskChar="*" onChange={(e, newtime) => {console.debug(newtime)}}/>
+            <MaskedTextField label="Eind Tijd" mask="%*:#*" maskFormat={maskFormat} maskChar="*" />
+
+
+
             <PrimaryButton
             text="Reserveer"
+            onClick={() => {this.makereservation()}}
             />
             
 

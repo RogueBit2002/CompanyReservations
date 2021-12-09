@@ -27,16 +27,6 @@ export default class CompanyReservationsClient extends React.Component<ICompanyR
 				<ReservationPanel></ReservationPanel>
 				<ReservationList></ReservationList>
 			</div>
-			// <div className={ styles.companyReservationsClient }>
-			// 	<div className={ styles.container }>
-			// 		<div className={ styles.row }>
-			// 			<div className={ styles.column }>
-			// 				<ReservationPanel></ReservationPanel>
-
-			// 			</div>
-			// 		</div>
-			// 	</div>
-			// </div>
 		);
 	}
 }
