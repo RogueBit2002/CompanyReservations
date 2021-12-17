@@ -1,4 +1,6 @@
+import { IDropdownOption } from "office-ui-fabric-react";
 import { CompanyReservations } from "../../../../../companyReservations/CompanyReservations";
+import { Workspace } from "../../../../../companyReservations/Workspace";
 
 export interface IWorkSpacesState
 {
@@ -7,4 +9,6 @@ export interface IWorkSpacesState
     workspaceId: number
     startTime: string
     endTime: string
+    workspacereservations: any[]
+    dropdownopt: any[]
 }

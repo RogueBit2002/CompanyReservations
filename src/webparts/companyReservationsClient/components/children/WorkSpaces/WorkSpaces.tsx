@@ -21,32 +21,53 @@ export default class CompanyReservationsClient extends React.Component<IWorkSpac
             workspaceId: 0,
             startTime: "",
             endTime: "",
+            workspacereservations: [],
+            dropdownopt: []
         }
 	}
 
-    componentDidMount(): void {
-        console.debug(CompanyReservations.getWorkspaces());
+    async componentDidMount(): Promise<void> {
+        await this.GetDropdownOptions();
+        // await this.GetCurrentRoomReservations();
     }
 
-    async makereservation(){
-
+    async GetDropdownOptions(): Promise<void>{
+        let worksp = await CompanyReservations.getWorkspaces();
+        let options = [];
+        worksp.forEach(element => {
+            let option = {key: element.getId().toString(), text: element.getName(), itemType: DropdownMenuItemType.Normal};
+            options.push(option);
+        });
+        this.setState({dropdownopt: options});
     }
 
-    async newtest(){
+    async GetCurrentRoomReservations(): Promise<void>{
+        let reservations = await CompanyReservations.getReservations();
+        let res = [];
+
+        reservations.forEach(element => {
+            if (element.getWorkspace().getId() == 1) {
+                let r = {starttime: (element.getStartDate().toLocaleTimeString('en-GB')), endtime: (element.getEndDate().toLocaleTimeString('en-GB'))}
+                res.push(r);
+            }
+        });
+
+        console.log(res);
         
+        this.setState({workspacereservations: res});
     }
-    
+
     public render(): React.ReactElement<IWorkSpacesProps> 
 	{
-        const options: IDropdownOption[] = [
-            { key: 'BG', text: 'Begane grond', itemType: DropdownMenuItemType.Header },
-            { key: '1', text: 'Vergaderkamer 0-1', itemType: DropdownMenuItemType.Normal},
-            { key: '2', text: 'Vergaderkamer 0-2' },
-            { key: 'V1', text: 'Verdieping 1', itemType: DropdownMenuItemType.Header },
-            { key: '3', text: 'Vergaderkamer 1-1' },
-            { key: '4', text: 'Vergaderkamer 1-2' },
-            { key: '5', text: 'Vergaderkamer 1-3' },
-        ];
+        // const options: IDropdownOption[] = [
+        //     { key: 'BG', text: 'Begane grond', itemType: DropdownMenuItemType.Header },
+        //     { key: '1', text: 'Vergaderkamer 0-1', itemType: DropdownMenuItemType.Normal},
+        //     { key: '2', text: 'Vergaderkamer 0-2' },
+        //     { key: 'V1', text: 'Verdieping 1', itemType: DropdownMenuItemType.Header },
+        //     { key: '3', text: 'Vergaderkamer 1-1' },
+        //     { key: '4', text: 'Vergaderkamer 1-2' },
+        //     { key: '5', text: 'Vergaderkamer 1-3' },
+        // ];
 
         const maskFormat: { [key: string]: RegExp } = {
             '*': /[0-9_]/,
@@ -60,11 +81,11 @@ export default class CompanyReservationsClient extends React.Component<IWorkSpac
                 required
                 placeholder="Selecteer een werkruimte"
                 label="Selecteer een werkruimte"
-                options={options}
+                options={this.state.dropdownopt}
                 className = {styles.dropdown}
                 onChange={(e, selectedOption) => {
-                    console.debug(selectedOption);
                     this.setState({workspaceId: toNumber(selectedOption.key.toString())});
+                    this.GetCurrentRoomReservations();
                 }}
             />
             <DatePicker
@@ -82,17 +103,19 @@ export default class CompanyReservationsClient extends React.Component<IWorkSpac
 
             <PrimaryButton
             text="Reserveer"
-            onClick={() => {this.makereservation()}}
+            // onClick={() => {this.Makereservation()}}
             />
             
-
+            
+            
             <h1>Reserveringen {this.state.firstDate.toLocaleDateString()}</h1>
-            <div className = {styles.reservationlist}>
-                <p>Reservering 9:00 - 12:00</p>
-            </div>
-            <div className = {styles.reservationlist}>
-                <p>Reservering 12:00 - 16:00</p>
-            </div>
+            {this.state.workspacereservations.map((objects) => {
+                return (
+                    <div className = {styles.reservationlist}>
+                        <p>Reserveering {objects.starttime} - {objects.endtime}</p>
+                    </div>
+                )
+            })}
             </div>
 		);
 	}
