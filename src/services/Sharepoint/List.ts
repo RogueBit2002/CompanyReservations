@@ -7,7 +7,7 @@ import "@pnp/sp/webs";
 import "@pnp/sp/lists/web";
 import "@pnp/sp/fields";
 import "@pnp/sp/views";
-import { IItemAddResult } from "@pnp/sp/items";
+import { IItemAddResult, IItemUpdateResult } from "@pnp/sp/items";
 
 
 export class List
@@ -90,6 +90,16 @@ export class List
 		{
 			return false;
 		}
+	}
+
+	public async updateItem(id : number, data : any) : Promise<any>
+	{
+		const result : IItemUpdateResult = await this.spList.items.getById(id).update({
+			data
+		});
+
+		console.debug(result.data);
+		return result.data;
 	}
 
 	public async getItemsByValues(ref: any): Promise<any[]>
