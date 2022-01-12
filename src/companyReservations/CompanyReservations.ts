@@ -1,5 +1,6 @@
 import { List } from "../services/Sharepoint/List";
 import { User } from "../services/Sharepoint/User";
+import CompanyReservationsAdmin from "../webparts/companyReservationsAdmin/components/CompanyReservationsAdmin";
 import { Reservation } from "./Reservation";
 import { Workspace } from "./Workspace";
 
@@ -46,7 +47,7 @@ export class CompanyReservations
 		return reservations;
 	}
 
-	public static async canReservate(id : number, startDate : Date, endDate : Date) : Promise<boolean>
+	public static async canReservate(id : number, startDate : Date, endDate : Date, excludeReservations: number[]) : Promise<boolean>
 	{
 		const workspace : Workspace = await Workspace.getById(id);
 
@@ -76,7 +77,7 @@ export class CompanyReservations
 	public static async placeReservation( workspaceId : number, reservee : User, startDate : Date, endDate : Date) : Promise<Reservation>
 	{
 		
-		if(!this.canReservate(workspaceId,startDate,endDate))
+		if(!this.canReservate(workspaceId,startDate,endDate,[]))
 		{
 			return null;
 		}
@@ -84,5 +85,48 @@ export class CompanyReservations
 		const res : Reservation = await Reservation.create(workspaceId,reservee,startDate,endDate);
 
 		return res;
+	}
+
+
+	public static async changeReservation(reservationId : number, startDate : Date, endDate: Date) : Promise<Reservation>
+	{
+		const oldRes : Reservation = await Reservation.getById(reservationId);
+
+		if(!this.canReservate(oldRes.getWorkspace().getId(), startDate, endDate, [oldRes.getId()]))
+		{
+			return null;
+		}
+
+		
+		
+	}
+
+	public static async deleteReservation( reservationId : number) : Promise<boolean>
+	{
+		try
+		{
+			const reservation : Reservation = await Reservation.getById(reservationId);
+
+			return await reservation.delete();
+		} catch(e)
+		{
+			return false;
+		}
+	}
+
+	public static async getActiveReservations(userId : number) : Promise<Reservation[]>
+	{
+		const allReservations : Reservation[] = await this.getReservations();
+
+		let reservations : Reservation[] = [];
+		for(let i = 0; i < allReservations.length; i ++)
+		{
+			if(allReservations[i].getReservee().getId() == userId)
+			{
+				reservations.push(allReservations[i]);
+			}
+		}
+
+		return reservations;
 	}
 }

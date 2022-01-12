@@ -21,6 +21,7 @@ export class Reservation
 		this.id = id;
 	}
 
+	
 	public static async getById(id : number) : Promise<Reservation>
 	{
 		const reservation : Reservation = new Reservation(id);
@@ -87,7 +88,13 @@ export class Reservation
 		this.cache.endDate = endDate;
 	}
 
-	public gdtId() : number
+	public async delete() : Promise<boolean>
+	{
+		return await CompanyReservations.workspaceReservations.removeItem(this.id);
+	}
+
+
+	public getId() : number
 	{
 		return this.id;
 	}
