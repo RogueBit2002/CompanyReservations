@@ -74,6 +74,7 @@ export default class ReservationList extends React.Component<IReservationListPro
 		if(confirm("Are you sure you want to cancel this reservation?"))
 		{
 			CompanyReservations.deleteReservation(id);
+			this.updateReservations();
 		}
 	}
 
