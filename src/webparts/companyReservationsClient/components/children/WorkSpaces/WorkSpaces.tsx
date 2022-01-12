@@ -59,16 +59,6 @@ export default class CompanyReservationsClient extends React.Component<IWorkSpac
 
     public render(): React.ReactElement<IWorkSpacesProps> 
 	{
-        // const options: IDropdownOption[] = [
-        //     { key: 'BG', text: 'Begane grond', itemType: DropdownMenuItemType.Header },
-        //     { key: '1', text: 'Vergaderkamer 0-1', itemType: DropdownMenuItemType.Normal},
-        //     { key: '2', text: 'Vergaderkamer 0-2' },
-        //     { key: 'V1', text: 'Verdieping 1', itemType: DropdownMenuItemType.Header },
-        //     { key: '3', text: 'Vergaderkamer 1-1' },
-        //     { key: '4', text: 'Vergaderkamer 1-2' },
-        //     { key: '5', text: 'Vergaderkamer 1-3' },
-        // ];
-
         const maskFormat: { [key: string]: RegExp } = {
             '*': /[0-9_]/,
             '%':/[0-2_]/,
