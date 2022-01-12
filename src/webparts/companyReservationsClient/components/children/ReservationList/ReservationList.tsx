@@ -69,12 +69,12 @@ export default class ReservationList extends React.Component<IReservationListPro
 		);
 	}
 
-	private cancelReservation(id : number)
+	private async cancelReservation(id : number)
 	{
 		if(confirm("Are you sure you want to cancel this reservation?"))
 		{
-			CompanyReservations.deleteReservation(id);
-			this.updateReservations();
+			await CompanyReservations.deleteReservation(id);
+			await this.updateReservations();
 		}
 	}
 
@@ -83,9 +83,6 @@ export default class ReservationList extends React.Component<IReservationListPro
 
 		let items : any[] = [];
 
-		const x : any = this.state;
-		
-		const y : any = this.state.reservations;
 		for(let i = 0; i < this.state.reservations.length; i ++)
 		{
 			items.push(this.renderItem(this.state.reservations[i]));
