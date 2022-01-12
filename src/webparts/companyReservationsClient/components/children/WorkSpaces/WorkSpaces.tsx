@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Dropdown, DropdownMenuItemType, IDropdownStyles, IDropdownOption, DatePicker, MaskedTextField, TextField, PrimaryButton } from 'office-ui-fabric-react';
+import { Dropdown, DropdownMenuItemType, IDropdownStyles, IDropdownOption, DatePicker, MaskedTextField, TextField, PrimaryButton, getDatePartHashValue } from 'office-ui-fabric-react';
 import styles from './WorkSpaces.module.scss';
 
 import { IWorkSpacesProps } from './IWorkSpacesProps';
@@ -8,6 +8,7 @@ import { toNumber, values } from 'lodash';
 import { Workspace } from '../../../../../companyReservations/Workspace';
 import * as strings from 'CompanyReservationsAdminWebPartStrings';
 import { CompanyReservations } from "../../../../../companyReservations/CompanyReservations";
+import { User } from '../../../../../services/Sharepoint/User';
 
 export default class CompanyReservationsClient extends React.Component<IWorkSpacesProps, IWorkSpacesState>{
 
@@ -41,20 +42,41 @@ export default class CompanyReservationsClient extends React.Component<IWorkSpac
         this.setState({dropdownopt: options});
     }
 
+    Comparedates(date1:Date, date2:Date){
+        if (date1.getDay() == date2.getDay() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear()) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
     async GetCurrentRoomReservations(): Promise<void>{
         let reservations = await CompanyReservations.getReservations();
         let res = [];
-
         reservations.forEach(element => {
-            if (element.getWorkspace().getId() == 1) {
-                let r = {starttime: (element.getStartDate().toLocaleTimeString('en-GB')), endtime: (element.getEndDate().toLocaleTimeString('en-GB'))}
+            let date1 = element.getStartDate();
+            let samedate = this.Comparedates(date1, this.state.firstDate);
+            if (element.getWorkspace().getId() == this.state.workspaceId && samedate) {
+                let r = {starttime: (element.getStartDate().toLocaleTimeString()), endtime: (element.getEndDate().toLocaleTimeString())};
                 res.push(r);
             }
         });
-
-        console.log(res);
-        
         this.setState({workspacereservations: res});
+    }
+
+    async MakeReservation(): Promise<void>{
+        if (this.state.workspaceId != 0 && this.state.startTime != "" && this.state.startTime != "") {
+            let user = await User.getCurrent();
+            let startdatum = this.state.firstDate;
+            let einddatum = this.state.firstDate;
+            console.log(this.state.startTime);
+            console.log(this.state.endTime);
+            startdatum.setHours(parseInt(this.state.startTime.substring(0,2)), parseInt(this.state.startTime.substring(3,5)));
+            einddatum.setHours(parseInt(this.state.endTime.substring(0,2)), parseInt(this.state.endTime.substring(3,5)));
+            let c = await CompanyReservations.placeReservation(this.state.workspaceId, user, startdatum, einddatum);
+            this.GetCurrentRoomReservations();
+            console.log(c);
+        }
     }
 
     public render(): React.ReactElement<IWorkSpacesProps> 
@@ -83,17 +105,20 @@ export default class CompanyReservationsClient extends React.Component<IWorkSpac
             isRequired
             minDate={this.state.currentDate}
             value={this.state.firstDate}
-            onSelectDate={values => {this.setState({firstDate : values})}}
+            onSelectDate={values => {
+                this.setState({firstDate : values});
+                this.GetCurrentRoomReservations(); 
+            }}
             ></DatePicker>
 
-            <MaskedTextField label="Start Tijd" mask="%*:#*" maskFormat={maskFormat} maskChar="*" onChange={(e, newtime) => {console.debug(newtime)}}/>
-            <MaskedTextField label="Eind Tijd" mask="%*:#*" maskFormat={maskFormat} maskChar="*" />
+            <MaskedTextField label="Start Tijd" mask="%*:#*" maskFormat={maskFormat} maskChar="*" onChange={(e, newtime) => {this.setState({startTime: newtime})}}/>
+            <MaskedTextField label="Eind Tijd" mask="%*:#*" maskFormat={maskFormat} maskChar="*" onChange={(e, endtime) => {this.setState({endTime: endtime})}}/>
 
 
 
             <PrimaryButton
             text="Reserveer"
-            // onClick={() => {this.Makereservation()}}
+                onClick={() => {this.MakeReservation()}}
             />
             
             
