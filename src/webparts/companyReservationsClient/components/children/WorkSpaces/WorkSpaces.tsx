@@ -67,15 +67,21 @@ export default class CompanyReservationsClient extends React.Component<IWorkSpac
     async MakeReservation(): Promise<void>{
         if (this.state.workspaceId != 0 && this.state.startTime != "" && this.state.startTime != "") {
             let user = await User.getCurrent();
-            let startdatum = this.state.firstDate;
-            let einddatum = this.state.firstDate;
-            console.log(this.state.startTime);
-            console.log(this.state.endTime);
-            startdatum.setHours(parseInt(this.state.startTime.substring(0,2)), parseInt(this.state.startTime.substring(3,5)));
-            einddatum.setHours(parseInt(this.state.endTime.substring(0,2)), parseInt(this.state.endTime.substring(3,5)));
-            let c = await CompanyReservations.placeReservation(this.state.workspaceId, user, startdatum, einddatum);
+            let startdate = new Date();
+            let enddate = new Date();
+            
+            startdate.setFullYear(this.state.firstDate.getFullYear());
+            startdate.setMonth(this.state.firstDate.getMonth());
+            startdate.setDate(this.state.firstDate.getDate());
+            startdate.setHours(parseInt(this.state.startTime.substring(0,2)), parseInt(this.state.startTime.substring(3,5)), 0, 0);
+
+            enddate.setFullYear(this.state.firstDate.getFullYear());
+            enddate.setMonth(this.state.firstDate.getMonth());
+            enddate.setDate(this.state.firstDate.getDate());
+            enddate.setHours(parseInt(this.state.endTime.substring(0,2)), parseInt(this.state.endTime.substring(3,5)), 0, 0);
+
+            let c = await CompanyReservations.placeReservation(this.state.workspaceId, user, startdate, enddate);
             this.GetCurrentRoomReservations();
-            console.log(c);
         }
     }
 

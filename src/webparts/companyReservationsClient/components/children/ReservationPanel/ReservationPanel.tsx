@@ -37,11 +37,6 @@ export default class CompanyReservationsClient extends React.Component<IReservat
                             <WorkSpaces></WorkSpaces>
                         </div>
                     </PivotItem>
-                    <PivotItem headerText="Equipment">
-                        <div>
-                            <Equipment></Equipment>
-                        </div>
-                    </PivotItem>
                 </Pivot>
             </Panel>
             </div>
